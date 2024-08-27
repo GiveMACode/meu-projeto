@@ -17,15 +17,11 @@ class User {
         $stmt = $this->db->connect()->prepare($query);
         $stmt->bindParam(':username', $username);
     
-        // Atribuir o hash a uma variável
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $stmt->bindParam(':password', $hashedPassword);
     
         return $stmt->execute();
     }
-    
-    
-
     public function findByUsername($username) {
         $query = "SELECT * FROM " . $this->table . " WHERE username = :username";
         $stmt = $this->db->connect()->prepare($query);

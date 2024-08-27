@@ -3,32 +3,60 @@
 namespace App\Controllers;
 
 use App\Models\Contact;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
+use App\Core\JWTHandler;
 
 class ContactController {
-    private $key = 'secret_key'; // Substitua por uma chave segura
+    private $contactModel;
+    private $jwt;
+
+    public function __construct() {
+        $this->contactModel = new Contact();
+        $this->jwt = new JWTHandler();
+    }
 
     public function createContact() {
-        $headers = getallheaders();
-        $token = str_replace('Bearer ', '', $headers['Authorization']);
-        try {
-            JWT::decode($token, new Key($this->key, 'HS256'));
-        } catch (\Exception $e) {
+        $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+        if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+            $token = $matches[1];
+            $decoded = $this->jwt->validateToken($token);
+
+            if ($decoded) {
+                $user_id = $decoded['id'];
+                $name = $_POST['name'];
+                $email = $_POST['email'];
+                if ($this->contactModel->create($user_id, $name, $email)) {
+                    http_response_code(201);
+                    echo json_encode(['message' => 'Contact created']);
+                } else {
+                    http_response_code(500);
+                    echo json_encode(['message' => 'Failed to create contact']);
+                }
+            } else {
+                http_response_code(401);
+                echo json_encode(['message' => 'Unauthorized']);
+            }
+        } else {
             http_response_code(401);
             echo json_encode(['message' => 'Unauthorized']);
-            return;
         }
-
-        $data = json_decode(file_get_contents("php://input"));
-        $contactModel = new Contact();
-        $contactModel->create($data->user_id, $data->name, $data->email);
-        echo json_encode(['message' => 'Contact created']);
     }
 
     public function getContacts() {
-        $contactModel = new Contact();
-        $contacts = $contactModel->getAll();
-        echo json_encode($contacts);
+        $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+        if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+            $token = $matches[1];
+            $decoded = $this->jwt->validateToken($token);
+
+            if ($decoded) {
+                $contacts = $this->contactModel->getAll();
+                echo json_encode($contacts);
+            } else {
+                http_response_code(401);
+                echo json_encode(['message' => 'Unauthorized']);
+            }
+        } else {
+            http_response_code(401);
+            echo json_encode(['message' => 'Unauthorized']);
+        }
     }
 }
