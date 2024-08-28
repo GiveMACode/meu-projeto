@@ -1,10 +1,20 @@
 {
+    "name": "vini/meu-projeto",
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "src/",
+            "App\\Core\\": "src/Core/",
+            "App\\Controllers\\": "src/Controllers/",
+            "App\\Models\\": "src/Models/"
         }
     },
+    "authors": [
+        {
+            "name": "Vinicius",
+            "email": "vinicius_atanasio@hotmail.com"
+        }
+    ],
     "require": {
-        "firebase/php-jwt": "^6.0"
+        "firebase/php-jwt": "^6.10"
     }
 }

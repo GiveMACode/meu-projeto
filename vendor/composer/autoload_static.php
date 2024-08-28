@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0f2c3a727a6da4acd150a914dd810575
+class ComposerStaticInitda4e08285a8d082a35ccfe28e9042864
 {
     public static $prefixLengthsPsr4 = array (
         'F' => 
@@ -13,6 +13,9 @@ class ComposerStaticInit0f2c3a727a6da4acd150a914dd810575
         ),
         'A' => 
         array (
+            'App\\Models\\' => 11,
+            'App\\Core\\' => 9,
+            'App\\Controllers\\' => 16,
             'App\\' => 4,
         ),
     );
@@ -22,9 +25,21 @@ class ComposerStaticInit0f2c3a727a6da4acd150a914dd810575
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
+        'App\\Models\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Models',
+        ),
+        'App\\Core\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Core',
+        ),
+        'App\\Controllers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Controllers',
+        ),
         'App\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/app',
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 
@@ -35,9 +50,9 @@ class ComposerStaticInit0f2c3a727a6da4acd150a914dd810575
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0f2c3a727a6da4acd150a914dd810575::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0f2c3a727a6da4acd150a914dd810575::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit0f2c3a727a6da4acd150a914dd810575::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitda4e08285a8d082a35ccfe28e9042864::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitda4e08285a8d082a35ccfe28e9042864::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitda4e08285a8d082a35ccfe28e9042864::$classMap;
 
         }, null, ClassLoader::class);
     }
